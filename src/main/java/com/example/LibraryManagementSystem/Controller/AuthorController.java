@@ -23,6 +23,7 @@ public class AuthorController {
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") int id){
         return new ResponseEntity<>(authorService.delete(id), HttpStatus.CREATED);

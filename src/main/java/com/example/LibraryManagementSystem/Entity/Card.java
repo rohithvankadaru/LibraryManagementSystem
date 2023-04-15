@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +34,12 @@ public class Card {
     @OneToOne
     @JoinColumn
     private Student student;
+
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    private List<Book> booksIssued = new ArrayList<>();
+
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    private List<Transaction> transaction = new ArrayList<>();
 
     public Card(CardStatus cardStatus, Student student) {
         this.cardStatus = cardStatus;
