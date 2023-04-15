@@ -8,5 +8,5 @@ import com.example.LibraryManagementSystem.DTO.ResponseDto.BookReturnResponseDto
 public interface TransactionService {
     public BookIssueResponseDto issueBook(BookIssueRequestDto bookIssueRequestDto) throws Exception;
 
-    public BookReturnResponseDto returnBook(BookReturnRequestDto);
+//    public BookReturnResponseDto returnBook(BookReturnRequestDto);
 }

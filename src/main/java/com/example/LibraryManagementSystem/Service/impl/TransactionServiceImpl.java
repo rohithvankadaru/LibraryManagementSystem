@@ -85,8 +85,8 @@ public class TransactionServiceImpl implements TransactionService {
          return new BookIssueResponseDto(transaction.getTransactionNumber(), transaction.getTransactionStatus(), book.getTitle());
     }
 
-    @Override
-    public BookReturnResponseDto returnBook() {
-
-    }
+   // @Override
+ /*   public BookReturnResponseDto returnBook() {
+        return new BookReturnResponseDto();
+    }*/
 }

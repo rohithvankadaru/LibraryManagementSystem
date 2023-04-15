@@ -1,5 +1,6 @@
 package com.example.LibraryManagementSystem.DTO.ResponseDto;
 
+import com.example.LibraryManagementSystem.Entity.Card;
 import com.example.LibraryManagementSystem.Enums.Department;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,6 @@ public class StudentResponseByIdDto {
     private Department department;
 
     private String mobNo;
+
+    private CardResponseDto cardResponseDto;
 }

@@ -2,6 +2,7 @@ package com.example.LibraryManagementSystem.Service.impl;
 
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentRequestAddDto;
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentUpdateMobRequestDto;
+import com.example.LibraryManagementSystem.DTO.ResponseDto.CardResponseDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentResponseByIdDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentUpdateMobResponseDto;
 import com.example.LibraryManagementSystem.Entity.Card;
@@ -51,10 +52,15 @@ public class StudentServiceImpl implements StudentService {
             replica.setAge(student.getAge());
             replica.setDepartment(student.getDepartment());
             replica.setMobNo(student.getMobNo());
+            Card card = student.getCard();
+            CardResponseDto cardResponseDto = new CardResponseDto(card.getId(), card.getIssueDate(), card.getUpdatedOn(), card.getCardStatus(), card.getValidTill());
+            replica.setCardResponseDto(cardResponseDto);
             ans.add(replica);
         }
         return ans;
     }
+
+
 
     public String delete(int id){
         studentRepository.deleteById(id);
@@ -87,6 +93,10 @@ public class StudentServiceImpl implements StudentService {
         studentResponseByIdDto.setAge(student.getAge());
         studentResponseByIdDto.setDepartment(student.getDepartment());
         studentResponseByIdDto.setMobNo(student.getMobNo());
+        Card card = student.getCard();
+        CardResponseDto cardResponseDto = new CardResponseDto(card.getId(), card.getIssueDate(), card.getUpdatedOn(), card.getCardStatus(), card.getValidTill());
+        studentResponseByIdDto.setCardResponseDto(cardResponseDto);
         return studentResponseByIdDto;
     }
+
 }
