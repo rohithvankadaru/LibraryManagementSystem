@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 public class BookIssueRequestDto {
 
-    private int bookId;
+    private int cardId;
 
-    private int cardid;
+    private int bookId;
 }

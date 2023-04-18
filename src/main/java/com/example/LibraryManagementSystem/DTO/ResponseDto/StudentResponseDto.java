@@ -1,6 +1,5 @@
 package com.example.LibraryManagementSystem.DTO.ResponseDto;
 
-import com.example.LibraryManagementSystem.Entity.Card;
 import com.example.LibraryManagementSystem.Enums.Department;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class StudentResponseByIdDto {
+public class StudentResponseDto {
 
     private int id;
 

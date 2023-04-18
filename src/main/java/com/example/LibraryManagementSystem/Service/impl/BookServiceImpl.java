@@ -3,15 +3,23 @@ package com.example.LibraryManagementSystem.Service.impl;
 import com.example.LibraryManagementSystem.Entity.Author;
 import com.example.LibraryManagementSystem.Entity.Book;
 import com.example.LibraryManagementSystem.Repository.AuthorRepository;
+import com.example.LibraryManagementSystem.Repository.BookRepository;
 import com.example.LibraryManagementSystem.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
+import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
 
     @Autowired
     AuthorRepository authorRepository;
+
+    @Autowired
+    BookRepository bookRepository;
+
 
     public String add(Book book) throws Exception {
         int authorId = book.getAuthor().getId();
@@ -27,5 +35,24 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(author);
         authorRepository.save(author);
         return "Book added successfully";
+    }
+
+    @Override
+    public String BookAvailability(String title) throws Exception {
+        List<Book> bookList = books(title);
+        System.out.println(bookList.size());
+        if(bookList.size() == 0){
+            return "no such book exists..!!";
+        }
+
+        for( Book book : bookList){
+            if(!book.isIssued()) return "Available..!! with BookId: "+book.getId();
+        }
+        return "Not Available..!!";
+    }
+
+    @Override
+    public List<Book> books(String title) {
+        return bookRepository.getByTitle(title);
     }
 }

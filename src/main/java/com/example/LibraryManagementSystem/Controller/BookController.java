@@ -3,10 +3,9 @@ package com.example.LibraryManagementSystem.Controller;
 import com.example.LibraryManagementSystem.Entity.Book;
 import com.example.LibraryManagementSystem.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book")
@@ -16,7 +15,14 @@ public class BookController {
     BookService bookService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Book book) throws Exception {
-           return bookService.add(book);
+    public ResponseEntity<String> add(@RequestBody Book book) throws Exception {
+        String msg = bookService.add(book);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/check/{bookTitle}")
+    public ResponseEntity<String> check(@PathVariable("bookTitle") String bookTitle) throws Exception {
+        String msg = bookService.BookAvailability(bookTitle);
+        return new  ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 }

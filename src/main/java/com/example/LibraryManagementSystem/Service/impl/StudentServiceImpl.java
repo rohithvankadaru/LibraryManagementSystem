@@ -3,7 +3,7 @@ package com.example.LibraryManagementSystem.Service.impl;
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentRequestAddDto;
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentUpdateMobRequestDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.CardResponseDto;
-import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentResponseByIdDto;
+import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentResponseDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentUpdateMobResponseDto;
 import com.example.LibraryManagementSystem.Entity.Card;
 import com.example.LibraryManagementSystem.Entity.Student;
@@ -42,22 +42,22 @@ public class StudentServiceImpl implements StudentService {
         return "student added successfully";
     }
 
-    public List<StudentResponseByIdDto> getAll() {
+    public List<StudentResponseDto> getAll() {
         List<Student> allStudents= studentRepository.findAll();
-        List<StudentResponseByIdDto> ans = new ArrayList<>();
+        List<StudentResponseDto> studentResponseDtoList = new ArrayList<>();
         for(Student student : allStudents){
-            StudentResponseByIdDto replica = new StudentResponseByIdDto();
-            replica.setId(student.getId());
-            replica.setName(student.getName());
-            replica.setAge(student.getAge());
-            replica.setDepartment(student.getDepartment());
-            replica.setMobNo(student.getMobNo());
+            StudentResponseDto studentResponseDto = new StudentResponseDto();
+            studentResponseDto.setId(student.getId());
+            studentResponseDto.setName(student.getName());
+            studentResponseDto.setAge(student.getAge());
+            studentResponseDto.setDepartment(student.getDepartment());
+            studentResponseDto.setMobNo(student.getMobNo());
             Card card = student.getCard();
             CardResponseDto cardResponseDto = new CardResponseDto(card.getId(), card.getIssueDate(), card.getUpdatedOn(), card.getCardStatus(), card.getValidTill());
-            replica.setCardResponseDto(cardResponseDto);
-            ans.add(replica);
+            studentResponseDto.setCardResponseDto(cardResponseDto);
+            studentResponseDtoList.add(studentResponseDto);
         }
-        return ans;
+        return studentResponseDtoList;
     }
 
 
@@ -85,18 +85,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponseByIdDto getById(int id) {
+    public StudentResponseDto getById(int id) {
         Student student = studentRepository.findById(id).get();
-        StudentResponseByIdDto studentResponseByIdDto = new StudentResponseByIdDto();
-        studentResponseByIdDto.setId(student.getId());
-        studentResponseByIdDto.setName(student.getName());
-        studentResponseByIdDto.setAge(student.getAge());
-        studentResponseByIdDto.setDepartment(student.getDepartment());
-        studentResponseByIdDto.setMobNo(student.getMobNo());
+        StudentResponseDto studentResponseDto = new StudentResponseDto();
+        studentResponseDto.setId(student.getId());
+        studentResponseDto.setName(student.getName());
+        studentResponseDto.setAge(student.getAge());
+        studentResponseDto.setDepartment(student.getDepartment());
+        studentResponseDto.setMobNo(student.getMobNo());
         Card card = student.getCard();
         CardResponseDto cardResponseDto = new CardResponseDto(card.getId(), card.getIssueDate(), card.getUpdatedOn(), card.getCardStatus(), card.getValidTill());
-        studentResponseByIdDto.setCardResponseDto(cardResponseDto);
-        return studentResponseByIdDto;
+        studentResponseDto.setCardResponseDto(cardResponseDto);
+        return studentResponseDto;
     }
 
 }

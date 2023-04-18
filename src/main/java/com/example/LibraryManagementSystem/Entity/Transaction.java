@@ -1,6 +1,7 @@
 package com.example.LibraryManagementSystem.Entity;
 
 import com.example.LibraryManagementSystem.Enums.TransactionStatus;
+import com.example.LibraryManagementSystem.Enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 @NoArgsConstructor
@@ -23,12 +25,13 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String transactionNumber;
+    private UUID transactionNumber;
 
     @CreationTimestamp
     private Date transactionDate;
 
-    private boolean isIssueOperation;
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
 
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;

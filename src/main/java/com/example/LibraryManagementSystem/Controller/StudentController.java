@@ -2,13 +2,13 @@ package com.example.LibraryManagementSystem.Controller;
 
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentRequestAddDto;
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentUpdateMobRequestDto;
-import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentResponseByIdDto;
+import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentResponseDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentUpdateMobResponseDto;
-import com.example.LibraryManagementSystem.Entity.Card;
 import com.example.LibraryManagementSystem.Exceptions.StudentNotFoundException;
-import com.example.LibraryManagementSystem.Repository.CardRepository;
-import com.example.LibraryManagementSystem.Service.impl.StudentServiceImpl;
+import com.example.LibraryManagementSystem.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,32 +18,37 @@ import java.util.List;
 public class StudentController {
 
     @Autowired
-    StudentServiceImpl studentService;
+    StudentService studentService;
 
     @PostMapping("/addViaBody")
-    public String add(@RequestBody StudentRequestAddDto studentRequestAddDto) {
-        return studentService.add(studentRequestAddDto);
+    public ResponseEntity<String> add(@RequestBody StudentRequestAddDto studentRequestAddDto) {
+        String msg = studentService.add(studentRequestAddDto);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")
-    public List<StudentResponseByIdDto> getAll() {
-        return studentService.getAll();
+    public ResponseEntity<List<StudentResponseDto>> getAll() throws Exception {
+        List<StudentResponseDto> list = studentService.getAll();
+        return new ResponseEntity<>(list, HttpStatus.CREATED);
     }
 
     @GetMapping("/getById")
-    public StudentResponseByIdDto getByid(@RequestParam("id") int id){
-        return studentService.getById(id);
+    public ResponseEntity<StudentResponseDto> getByid(@RequestParam("id") int id){
+        StudentResponseDto studentResponseDto = studentService.getById(id);
+        return new ResponseEntity<>(studentResponseDto, HttpStatus.CREATED);
     }
 
 
     @PutMapping("/updateMob")
-    public StudentUpdateMobResponseDto updateMob(@RequestBody StudentUpdateMobRequestDto studentUpdateMobRequestDto) throws StudentNotFoundException {
-        return studentService.updateMob(studentUpdateMobRequestDto);
+    public ResponseEntity<StudentUpdateMobResponseDto> updateMob(@RequestBody StudentUpdateMobRequestDto studentUpdateMobRequestDto) throws StudentNotFoundException {
+        StudentUpdateMobResponseDto studentUpdateMobResponseDto = studentService.updateMob(studentUpdateMobRequestDto);
+        return new ResponseEntity<>(studentUpdateMobResponseDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteById")
-    public String delete(@RequestParam("id") int id) {
-        return studentService.delete(id);
+    public ResponseEntity<String> delete(@RequestParam("id") int id) {
+        String msg = studentService.delete(id);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
 }

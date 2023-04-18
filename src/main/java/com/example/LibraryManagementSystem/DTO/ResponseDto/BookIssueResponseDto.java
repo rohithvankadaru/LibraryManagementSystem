@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 public class BookIssueResponseDto {
 
-    private String transactionId;
+    private UUID transactionId;
 
     private TransactionStatus transactionStatus;
 

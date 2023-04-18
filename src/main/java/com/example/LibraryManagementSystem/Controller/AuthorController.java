@@ -24,13 +24,15 @@ public class AuthorController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") int id){
-        return new ResponseEntity<>(authorService.delete(id), HttpStatus.CREATED);
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> delete(@RequestParam("id") int id){
+        String msg = authorService.delete(id);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
     @GetMapping("/getByAge")
-    public ResponseEntity<List<AuthorResponseDto>> getByAge(int age){
-        return new ResponseEntity<>(authorService.getByAge(age), HttpStatus.CREATED);
+    public ResponseEntity<List<AuthorResponseDto>> getByAge(@RequestParam("age") int age){
+        List<AuthorResponseDto> list= authorService.getByAge(age);
+        return new ResponseEntity<>(list, HttpStatus.CREATED);
     }
 }
