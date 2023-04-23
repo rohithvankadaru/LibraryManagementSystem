@@ -14,5 +14,9 @@ import lombok.Setter;
 public class BookReturnResponseDto {
     String bookTitle;
 
+    String TransactionNumber;
+
     TransactionStatus transactionStatus;
+
+    int penality;
 }

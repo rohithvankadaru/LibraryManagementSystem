@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
-    List<Author> getByAge(int age);
+    List<Author> findByAge(int age);
 }

@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 public class BookIssueResponseDto {
 
-    private UUID transactionId;
+    private String transactionId;
 
     private TransactionStatus transactionStatus;
 

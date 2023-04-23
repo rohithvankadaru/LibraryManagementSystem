@@ -1,5 +1,6 @@
 package com.example.LibraryManagementSystem.Service.impl;
 
+import com.example.LibraryManagementSystem.DTO.RequestDto.BookAddRequestDto;
 import com.example.LibraryManagementSystem.Entity.Author;
 import com.example.LibraryManagementSystem.Entity.Book;
 import com.example.LibraryManagementSystem.Repository.AuthorRepository;
@@ -21,8 +22,8 @@ public class BookServiceImpl implements BookService {
     BookRepository bookRepository;
 
 
-    public String add(Book book) throws Exception {
-        int authorId = book.getAuthor().getId();
+    public String add(BookAddRequestDto bookAddRequestDto) throws Exception {
+        int authorId = bookAddRequestDto.getAuthorId();
 
         Author author;
         try{
@@ -31,8 +32,16 @@ public class BookServiceImpl implements BookService {
         catch (Exception e){
             return "no such author";
         }
-        author.getBooks().add(book);
+
+        Book book = new Book();
+
+        book.setTitle(bookAddRequestDto.getTitle());
+        book.setGenre(bookAddRequestDto.getGenre());
+        book.setPages(bookAddRequestDto.getPages());
+        book.setPrice(bookAddRequestDto.getPrice());
         book.setAuthor(author);
+
+        author.getBooks().add(book);
         authorRepository.save(author);
         return "Book added successfully";
     }
@@ -40,7 +49,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public String BookAvailability(String title) throws Exception {
         List<Book> bookList = books(title);
-        System.out.println(bookList.size());
         if(bookList.size() == 0){
             return "no such book exists..!!";
         }

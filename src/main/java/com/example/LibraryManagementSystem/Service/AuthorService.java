@@ -12,4 +12,6 @@ public interface AuthorService {
     public String delete(int id);
 
     public List<AuthorResponseDto> getByAge(int age);
+
+    public String updateEmail(String Email, int id);
 }

@@ -23,6 +23,11 @@ public class AuthorController {
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 
+    @PutMapping("/updateEmail/{id}/{Email}")
+    public ResponseEntity<String> updateMail(@PathVariable("id") int id,@PathVariable("Email") String Email){
+        String msg = authorService.updateEmail(Email, id);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
+    }
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam("id") int id){

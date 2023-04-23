@@ -1,5 +1,6 @@
 package com.example.LibraryManagementSystem.Controller;
 
+import com.example.LibraryManagementSystem.DTO.RequestDto.BookAddRequestDto;
 import com.example.LibraryManagementSystem.Entity.Book;
 import com.example.LibraryManagementSystem.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class BookController {
     BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Book book) throws Exception {
-        String msg = bookService.add(book);
+    public ResponseEntity<String> add(@RequestBody BookAddRequestDto bookAddRequestDto) throws Exception {
+        String msg = bookService.add(bookAddRequestDto);
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
 

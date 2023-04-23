@@ -30,11 +30,25 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<AuthorResponseDto> getByAge(int age) {
-        List<Author> authors = authorRepository.getByAge(age);
+        List<Author> authors = authorRepository.findByAge(age);
         List<AuthorResponseDto> ansList = new ArrayList<>();
         for(Author author : authors){
             ansList.add(new AuthorResponseDto(author.getId(), author.getName(), author.getAge(), author.getEmail()));
         }
         return ansList;
+    }
+
+    @Override
+    public String updateEmail(String Email, int id) {
+        Author author;
+        try {
+            author = authorRepository.findById(id).get();
+        }
+        catch (Exception e){
+            return "Invalid id..!!";
+        }
+        author.setEmail(Email);
+        authorRepository.save(author);
+        return "Email updated..!!";
     }
 }

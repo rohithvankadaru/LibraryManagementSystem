@@ -28,6 +28,8 @@ public class Student {
 
     private String mobNo;
 
+    private String email;
+
     @OneToOne(mappedBy = "student",cascade = CascadeType.ALL)
     private Card card;
 

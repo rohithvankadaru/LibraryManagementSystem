@@ -3,6 +3,7 @@ package com.example.LibraryManagementSystem.Service.impl;
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentRequestAddDto;
 import com.example.LibraryManagementSystem.DTO.RequestDto.StudentUpdateMobRequestDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.CardResponseDto;
+import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentEmailUpdateResponseDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentResponseDto;
 import com.example.LibraryManagementSystem.DTO.ResponseDto.StudentUpdateMobResponseDto;
 import com.example.LibraryManagementSystem.Entity.Card;
@@ -32,6 +33,7 @@ public class StudentServiceImpl implements StudentService {
         student.setAge(studentRequestAddDto.getAge());
         student.setDepartment(studentRequestAddDto.getDepartment());
         student.setMobNo(studentRequestAddDto.getMobNo());
+        student.setEmail(studentRequestAddDto.getEmail());
 
         Card card = new Card(CardStatus.ACTIVE, student);
         Date date = card.getIssueDate();
@@ -97,6 +99,24 @@ public class StudentServiceImpl implements StudentService {
         CardResponseDto cardResponseDto = new CardResponseDto(card.getId(), card.getIssueDate(), card.getUpdatedOn(), card.getCardStatus(), card.getValidTill());
         studentResponseDto.setCardResponseDto(cardResponseDto);
         return studentResponseDto;
+    }
+
+    @Override
+    public StudentEmailUpdateResponseDto updateEmail(int studentId, String Email) throws Exception {
+        Student student;
+        try {
+            student = studentRepository.findById(studentId).get();
+        }
+        catch (Exception e){
+            throw new Exception("Invalid Student");
+        }
+
+        student.setEmail(Email);
+
+        studentRepository.save(student);
+
+        StudentEmailUpdateResponseDto studentEmailUpdateResponseDto = new StudentEmailUpdateResponseDto(student.getName(), Email);
+        return studentEmailUpdateResponseDto;
     }
 
 }

@@ -10,7 +10,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
-import java.util.UUID;
 
 
 @NoArgsConstructor
@@ -25,7 +24,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private UUID transactionNumber;
+    private String  transactionNumber;
 
     @CreationTimestamp
     private Date transactionDate;

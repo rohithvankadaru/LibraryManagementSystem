@@ -15,8 +15,12 @@ import com.example.LibraryManagementSystem.Repository.CardRepository;
 import com.example.LibraryManagementSystem.Repository.TransactionRepository;
 import com.example.LibraryManagementSystem.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,11 +35,14 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     TransactionRepository transactionRepository;
 
+    @Autowired
+    JavaMailSender mailSender;
+
     @Override
     public BookIssueResponseDto issueBook(BookIssueRequestDto bookIssueRequestDto) throws Exception {
 
         Transaction transaction = new Transaction();
-        transaction.setTransactionNumber(UUID.randomUUID());
+        transaction.setTransactionNumber(UUID.randomUUID().toString());
         transaction.setTransactionType(TransactionType.ISSUE);
 
         Card card;
@@ -85,6 +92,16 @@ public class TransactionServiceImpl implements TransactionService {
          cardRepository.save(card);
 
          BookIssueResponseDto bookIssueResponseDto = new BookIssueResponseDto(transaction.getTransactionNumber(), transaction.getTransactionStatus(), book.getTitle());
+
+         String text = "Congracts..!! "+card.getStudent().getName() + " you have been issued a book: "+book.getTitle();
+
+         SimpleMailMessage mailMessage = new SimpleMailMessage();
+         mailMessage.setFrom("noreplylibrarysystem1@gmail.com");
+         mailMessage.setTo(card.getStudent().getEmail());
+         mailMessage.setSubject("issue Book");
+         mailMessage.setText(text);
+         mailSender.send(mailMessage);
+
          return bookIssueResponseDto;
     }
 
@@ -93,7 +110,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Transaction transaction = new Transaction();
 
-        transaction.setTransactionNumber(UUID.randomUUID());
+        transaction.setTransactionNumber(UUID.randomUUID().toString());
 
         transaction.setTransactionType(TransactionType.RETURN);
 
@@ -119,6 +136,16 @@ public class TransactionServiceImpl implements TransactionService {
             throw new Exception("invalid Book...!!!");
         }
 
+        Date issueDate = null;
+        List<Transaction> transactionList = book.getTransactions();
+        for (Transaction transaction1 : transactionList) {
+            if(transaction1.getBook() == book) issueDate = transaction1.getTransactionDate();
+        }
+
+        Date today = new Date();
+
+        int penality = (today.getDate()-issueDate.getDate()) > 15? today.getDate()-issueDate.getDate() : 0;
+
         transaction.setBook(book);
 
         if(card.getCardStatus() != CardStatus.ACTIVE){
@@ -132,7 +159,6 @@ public class TransactionServiceImpl implements TransactionService {
             transactionRepository.save(transaction);
             throw new Exception("get cleared with bookId, Book not even issued");
         }
-
         transaction.setTransactionStatus(TransactionStatus.SUCCESS);
         book.setIssued(false);
         book.setCard(null);
@@ -143,25 +169,16 @@ public class TransactionServiceImpl implements TransactionService {
 
         cardRepository.save(card);
 
-        BookReturnResponseDto bookReturnResponseDto = new BookReturnResponseDto(book.getTitle(), transaction.getTransactionStatus());
+        BookReturnResponseDto bookReturnResponseDto = new BookReturnResponseDto(book.getTitle(), transaction.getTransactionNumber(), transaction.getTransactionStatus(), penality);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        String text = "Good job " +card.getStudent().getName()+" returned book: "+book.getTitle()+"with penality: "+penality;
+        mailMessage.setSubject("return Book");
+        mailMessage.setText(text);
+        mailMessage.setTo(card.getStudent().getEmail());
+        mailSender.send(mailMessage);
 
         return bookReturnResponseDto;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

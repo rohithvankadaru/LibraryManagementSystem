@@ -11,11 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentRequestAddDto {
+
     private String name;
 
     private int age;
 
     private Department department;
+
+    private String email;
 
     private String mobNo;
 
